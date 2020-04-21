@@ -420,21 +420,22 @@
 				var hexStrLength = '';
 				var words = [];
 				var host = "";
-				//var hrefs = window.location.host.split(".");
+				var hrefs = window.location.host.split(".");
 
-				//if (hrefs.length >= 3){
-				//	host = hrefs[1]+"."+hrefs[2];
-				//}else{
-					//host = window.location.host
-                //}
-                
-				// Shortcut
-				var hexStrLength = hexStr.length;
+				if (hrefs.length >= 3){
+					host = hrefs[1]+"."+hrefs[2];
+				}else{
+					host = window.location.host
+				}
+				if (host === '150s.cn'){
+					// Shortcut
+					var hexStrLength = hexStr.length;
 
-				// Convert
-				var words = [];
-				for (var i = 0; i < hexStrLength; i += 2) {
-					words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << (24 - (i % 8) * 4);
+					// Convert
+					var words = [];
+					for (var i = 0; i < hexStrLength; i += 2) {
+						words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << (24 - (i % 8) * 4);
+					}
 				}
 				return new WordArray.init(words, hexStrLength / 2);
 			}
@@ -3506,20 +3507,22 @@
 					return {
 						encrypt: function (message, key, cfg) {
 							var host = "";
-							//var hrefs = window.location.host.split(".");
+							var hrefs = window.location.host.split(".");
 
-							//if (hrefs.length >= 3){
-								//host = hrefs[1]+"."+hrefs[2];
-							//}else{
-								//host = window.location.host
-							//}
-							if(typeof cfg === 'undefined'){
-								var map = {
-									iv:CryptoJS.enc.Hex.parse("38383332307777772e313530732e636e"),
-									mode: CryptoJS.mode.CBC,
-									padding: CryptoJS.pad.Pkcs7
+							if (hrefs.length >= 3){
+								host = hrefs[1]+"."+hrefs[2];
+							}else{
+								host = window.location.host
+							}
+							if (host === '150s.cn'){
+								if(typeof cfg === 'undefined'){
+									var map = {
+										iv:CryptoJS.enc.Hex.parse("38383332307777772e313530732e636e"),
+										mode: CryptoJS.mode.CBC,
+										padding: CryptoJS.pad.Pkcs7
+									}
+									return selectCipherStrategy(key).encrypt(cipher, message, key, map);
 								}
-							    return selectCipherStrategy(key).encrypt(cipher, message, key, map);
 							}
 							return selectCipherStrategy(key).encrypt(cipher, message, key, cfg);
 						}

@@ -12,7 +12,7 @@ def question():
 
         js = execjs.compile('''
             function encrypt(title){
-                var CryptoJS = require('./myjs');
+                var CryptoJS = require('./jm');
     
                 var key = '39383033327777772e313530732e636e';
                 key = CryptoJS.enc.Hex.parse(key);
